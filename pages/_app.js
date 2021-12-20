@@ -2,7 +2,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import FileData from '../components/fileData';
-import ListFile from '../components/listfile';
+import ListFile from '../components/listFile';
 
 export default function App() {
   const [selectedFile, setSelectedFile] = useState(null);
