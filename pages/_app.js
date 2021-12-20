@@ -8,8 +8,13 @@ export default function App() {
   const [selectedFile, setSelectedFile] = useState(null);
 
 
-  const [files, setfiles] = useState(null);
-  getListFile();
+  const [files, setfiles] = useState([]);
+    
+    React.useEffect(() => {
+      if(files){
+        getListFile()
+      }
+    }, []); // <-- Have to pass in [] here!
 
   function onFileChange(event) {
 
@@ -37,19 +42,20 @@ export default function App() {
     // Request made to the backend api
     // Send formData object
 
-    
-    await axios.post("https://file-server-du.herokuapp.com/upload_file", formData).then((response) =>{console.log(response)});
+
+    await axios.post(`${process.env.API}upload_file`, formData).then((response) => { console.log(response) });
 
     getListFile();
-    
+
   };
 
-  async function getListFile(){
-    const list_files = await axios.get("https://file-server-du.herokuapp.com/list_files").then((response) =>{ return response.data});
+  async function getListFile() {
 
+    const list_files = await axios.get(`${process.env.API}list_files`).then((response) => { return response.data });
+    console.log(list_files)
     setfiles(list_files);
   }
-  
+
   return (
     <div>
       <h1>
@@ -64,8 +70,8 @@ export default function App() {
           Upload!
         </button>
       </div>
-      <FileData selectedFile = {selectedFile}/>
-      <ListFile files = {files}/>
+      <FileData selectedFile={selectedFile} />
+      <ListFile files={files} />
     </div>
   );
 }
